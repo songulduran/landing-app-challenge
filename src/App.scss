@@ -1,0 +1,52 @@
+/* Değişkenler - Döküman md. 7 */
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --card-bg: #f4f4f4;
+}
+
+[data-theme='dark'] {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+  --card-bg: #1e1e1e;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  font-family: sans-serif;
+  margin: 0;
+}
+
+/* 3 Breakpoint Kontrolü (Döküman md. 3) */
+.pricing-grid {
+  display: grid;
+  gap: 2rem;
+  padding: 2rem;
+  
+  // Mobil: Tek sütun (≤640px)
+  grid-template-columns: 1fr;
+
+  // Tablet: İki sütun (641px - 1024px)
+  @media (min-width: 641px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  // Masaüstü: Üç sütun (≥1025px)
+  @media (min-width: 1025px) {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+/* Card Bileşeni Stili (BEM) */
+.c-card {
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,0.1);
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
