@@ -2,17 +2,21 @@ import { useState } from 'react';
 import Accordion from "./components/Accordion/Accordion";
 import Input from "./components/Input/Input";
 import Button from "./components/Button/Button";
+import Card from './components/Card/Card';
+import Modal from './components/Modal/Modal';
 import './App.scss';
 
 function App() {
+  const [theme, setTheme] = useState('light');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
-  const [theme, setTheme] = useState('light');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
+    const nextTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(nextTheme);
+    document.documentElement.setAttribute('data-theme', nextTheme);
+    document.body.style.backgroundColor = nextTheme === 'dark' ? '#111827' : '#ffffff';
   };
 
   const handleFormSubmit = (e) => {
@@ -23,55 +27,51 @@ function App() {
       setError('Geçerli bir e-posta adresi giriniz!');
     } else {
       setError('');
-      alert('Form başarıyla gönderildi (Yalancı Submit)!');
+      alert('Form başarıyla gönderildi!');
       setEmail('');
     }
   };
 
   return (
     <div className="app-container">
-      {/* 1. Üst Menü */}
-      <nav style={{ padding: '1rem', textAlign: 'right' }}>
+      <nav className="header-nav">
+        <div className="logo">LandingApp</div>
         <Button onClick={toggleTheme} variant="secondary">
           {theme === 'light' ? '🌙 Dark Mode' : '☀️ Light Mode'}
         </Button>
       </nav>
-
-      {/* 2. Hero Bölümü */}
+alert(butona basınca model açılacak)
       <section className="hero">
         <h1>Geleceğin Teknolojisi Burada</h1>
         <p>Harika ürünümüzü keşfedin. Modern ve hızlı çözümlerle tanışın.</p>
+        <Button onClick={() => setIsModalOpen(true)} variant="primary">
+          Kampanyayı Gör
+        </Button>
       </section>
 
-      {/* 3. Fiyatlandırma Bölümü (Hata Buradaydı, Düzelttik) */}
       <section className="pricing-section">
-        <h2 style={{ textAlign: 'center', margin: '2rem 0' }}>Planlarımız</h2>
+        <h2 className="section-title">Planlarımız</h2>
         <div className="pricing-grid">
-          {/* Başlangıç Planı */}
-          <div className="c-card">
-            <h3>Başlangıç</h3>
-            <p className="price">Ücretsiz</p>
+          <Card title="Başlangıç" price="Ücretsiz">
             <ul>
               <li>Temel Özellikler</li>
               <li>Topluluk Desteği</li>
+              <li>Sınırlı Erişim</li>
             </ul>
-            <Button variant="primary">Hemen Başla</Button>
-          </div>
+            <Button variant="outline">Hemen Başla</Button>
+          </Card>
 
-          {/* Pro Planı (Eksik kalmasın diye ekledim) */}
-          <div className="c-card">
-            <h3>Pro</h3>
-            <p className="price">₺99/ay</p>
+          <Card title="Pro" price="₺99/ay" variant="featured">
             <ul>
               <li>Tüm Özellikler</li>
               <li>7/24 Destek</li>
+              <li>Özel Danışmanlık</li>
             </ul>
             <Button variant="primary">Satın Al</Button>
-          </div>
-        </div> {/* pricing-grid kapandı */}
-      </section> {/* pricing-section kapandı */}
+          </Card>
+        </div>
+      </section>
 
-      {/* 4. SSS Bölümü */}
       <section className="faq-section">
         <h2>Sıkça Sorulan Sorular</h2>
         <Accordion 
@@ -79,12 +79,16 @@ function App() {
           content="Kredi kartı ve havale ile ödeme yapabilirsiniz." 
           id="faq-1"
         />
+        <Accordion 
+          title="İptal politikası nasıldır?" 
+          content="İstediğiniz zaman üyeliğinizi iptal edebilirsiniz." 
+          id="faq-2"
+        />
       </section>
 
-      {/* 5. İletişim Formu */}
       <section className="contact-section">
         <h2>İletişim</h2>
-        <form onSubmit={handleFormSubmit} noValidate>
+        <form className="contact-form" onSubmit={handleFormSubmit} noValidate>
           <Input 
             type="email" 
             label="E-posta Adresiniz"
@@ -92,13 +96,27 @@ function App() {
             error={error}
             onChange={(e) => setEmail(e.target.value)} 
             placeholder="örnek@mail.com"
-            aria-required="true"
           />
-          <Button type="submit" variant="primary">Gönder</Button>
+          <Button type="submit" variant="primary">Abone Ol</Button>
         </form>
       </section>
-      
-    </div> // app-container kapandı
+
+      <Modal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        title="Özel Teklif!"
+      >
+        <p>Bugüne özel tüm Pro planlarda %20 indirim fırsatını kaçırmayın!</p>
+        <div style={{ marginTop: '1rem', display: 'flex', gap: '10px', justifyContent: 'center' }}>
+          <Button variant="primary" onClick={() => setIsModalOpen(false)}>Fırsatı Yakala</Button>
+          <Button variant="outline" onClick={() => setIsModalOpen(false)}>Kapat</Button>
+        </div>
+      </Modal>
+
+      <footer className="footer">
+        <p>© 2026 LandingApp. Tüm hakları saklıdır.</p>
+      </footer>
+    </div>
   );
 }
 

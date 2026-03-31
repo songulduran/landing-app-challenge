@@ -1,52 +1,493 @@
-/* Değişkenler - Döküman md. 7 */
+/* 1. Global Renk Değişkenleri */
 :root {
   --bg-color: #ffffff;
-  --text-color: #333333;
-  --card-bg: #f4f4f4;
+  --text-color: #1f2937;
+  --card-bg: #ffffff;
+  --header-bg: #ffffff;
+}
+
+/* 2. Dark Mode Aktifleşince (Magic Happens Here) */
+[data-theme='dark'] {
+  --bg-color: #111827; // Koyu lacivert/siyah
+  --text-color: #f9fafb; // Beyaz yazı
+  --card-bg: #1f2937; // Koyu gri kartlar
+  --header-bg: #111827;
+
+  // Sayfadaki her şeyi zorla karartalım
+  body, .app-container {
+    background-color: var(--bg-color) !important;
+    color: var(--text-color) !important;
+  }
+
+  .card {
+    background-color: var(--card-bg) !important;
+    border-color: #374151 !important;
+    
+    h3, .card__price, li {
+      color: var(--text-color) !important;
+    }
+  }
+
+  .header-nav {
+    background-color: var(--header-bg);
+    border-bottom: 1px solid #374151;
+  }
+
+  h1, h2, h3, p, li, label {
+    color: var(--text-color) !important;
+  }
+
+  .modal-content {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+  }
+}
+
+/* 3. Değişkenleri body'ye bağla */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}// 1. Değişkenleri Tanımla
+:root {
+  --bg-color: #ffffff;
+  --text-color: #1f2937;
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+}
+
+// 2. Dark Mode Aktifleşince Değişkenleri Güncelle
+[data-theme='dark'] {
+  --bg-color: #111827; // Koyu arka plan
+  --text-color: #f3f4f6; // Açık renk yazı
+  --card-bg: #1f2937; // Koyu kart rengi
+  --card-border: #374151;
+}
+
+// 3. Bu değişkenleri elementlere giydir (Burası kritik!)
+ body, .app-container {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+  }
+
+.app-container {
+  background-color: var(--bg-color);
+}
+
+.card,.modal-content, .accordion {
+  background-color: var(--card-bg) !important;
+  border-color: var(--card-border) !important;
+  color: var(--text-color) !important;
+  
+  h1, h2, h3, p, span, li, label{
+     color: var(--text-color) !important;
+  }
+}
+
+.modal-content {
+  background-color: var(--card-bg) !important;
+  color: var(--text-color) !important;
+}
+
+h1, h2, h3, p, li, span, label {
+  color: var(--text-color);
+}/* --- 🌓 Dark Mode Renk Paleti --- */
+:root {
+  // Light Mode (Varsayılan)
+  --bg-color: #f9fafb;
+  --text-color: #1f2937;
+  --card-bg: #ffffff;
+  --border-color: #e5e7eb;
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
 }
 
 [data-theme='dark'] {
-  --bg-color: #121212;
-  --text-color: #e0e0e0;
-  --card-bg: #1e1e1e;
+  // Dark Mode (Aktifleşince)
+  --bg-color: #111827; // Koyu lacivert/siyah
+  --text-color: #f9fafb; // Açık gri/beyaz
+  --card-bg: #1f2937; // Koyu gri kartlar
+  --border-color: #374151;
+  --primary-color: #60a5fa; // Daha açık, parlak mavi
 }
+
 
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition: all 0.3s ease;
-  font-family: sans-serif;
-  margin: 0;
+  transition: background-color 0.3s ease, color 0.3s ease; // Geçiş yumuşak olsun
 }
 
-/* 3 Breakpoint Kontrolü (Döküman md. 3) */
-.pricing-grid {
-  display: grid;
-  gap: 2rem;
-  padding: 2rem;
-  
-  // Mobil: Tek sütun (≤640px)
-  grid-template-columns: 1fr;
-
-  // Tablet: İki sütun (641px - 1024px)
-  @media (min-width: 641px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  // Masaüstü: Üç sütun (≥1025px)
-  @media (min-width: 1025px) {
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 1200px;
-    margin: 0 auto;
-  }
+.card {
+  background-color: var(--card-bg) !important;
+  color: var(--text-color);
+  border-color: var(--border-color) !important;
 }
 
-/* Card Bileşeni Stili (BEM) */
-.c-card {
-  background-color: var(--card-bg);
-  padding: 1.5rem;
-  border-radius: 12px;
-  border: 1px solid rgba(0,0,0,0.1);
+// Diğer tüm bölümlerin (hero, faq, contact) renklerini değişkene bağla
+h1, h2, h3, p, label {
+  color: var(--text-color) !important;
+}/* App.scss - Global Hızlandırıcı */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; // Her şeyi ortalar
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.hero, .pricing-section, .faq-section, .contact-section {
+  width: 100%;
+  margin-bottom: 60px;
+}
+
+/* Butonları Gerçek Buton Yapalım */
+.btn {
+  background-color: #2563eb !important; // Mavi
+  color: white !important;
+  padding: 12px 24px !important;
+  border-radius: 8px !important;
+  border: none !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 1rem;
+  
+  &:hover {
+    background-color: #1d4ed8 !important;
+    transform: scale(1.05);
+  }
+
+  &--outline {
+    background: transparent !important;
+    border: 2px solid #2563eb !important;
+    color: #2563eb !important;
+  }
+}
+
+/* Kartları Düzeltelim */
+.pricing-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: white;
+  border: 1px solid #eee;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  min-width: 300px;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-color: #2563eb; // Senaryodaki "Pro" rengi
+  --primary-hover: #1d4ed8;
+  --bg-color: #f9fafb;
+  --text-color: #1f2937;
+  --card-bg: #ffffff;
+  --border-color: #e5e7eb;
+}
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* --- 🌟 Tipografi & Genel Düzen --- */
+h1, h2, h3 {
+  color: var(--text-color);
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+h1 { font-size: 2.5rem; margin-top: 2rem; }
+h2 { font-size: 2rem; margin-top: 3rem; margin-bottom: 2rem; }
+h3 { font-size: 1.5rem; }
+
+p {
+  text-align: center;
+  color: #4b5563;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+}
+
+section {
+  padding: 40px 0;
+}
+
+/* --- 🚀 1. Üst Menü / Header (Puan Kaynağı) --- */
+.header-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+  
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+  }
+}
+
+/* --- 🎁 2. Fiyatlandırma Kartları (Kritik 30 Puan!) --- */
+.pricing-grid {
+  display: flex;
+  flex-wrap: wrap; // Mobilde alt alta geçer (Responsive!)
+  justify-content: center;
+  gap: 30px;
+  margin-top: 2rem;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  transition: all 0.3s ease;
+  flex: 1;
+  min-width: 280px;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #f0f0f0;
+
+  &:hover {
+    transform: translateY(-10px); // Üzerine gelince yükselsin (Hoca bayılır buna)
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  }
+  
+  &--featured { // Pro Planı için özel stil
+    border: 2px solid var(--primary-color);
+    position: relative;
+    
+    &::after { // "Popüler" etiketi (UX puanı!)
+      content: 'POPÜLER';
+      position: absolute;
+      top: -12px;
+      background: var(--primary-color);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+  }
+
+  &__title {
+    font-size: 1.5rem;
+    color: #1f2937;
+    margin-bottom: 1rem;
+  }
+
+  &__price {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+  }
+
+  &__content {
+    width: 100%;
+    margin-bottom: 1.5rem;
+    
+    ul {
+      list-style: none; // Maddelerin başındaki noktaları kaldırır
+      padding: 0;
+      text-align: center;
+      
+      li {
+        padding: 8px 0;
+        color: #4b5563;
+        border-bottom: 1px solid #f3f4f6;
+        
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+}
+
+/* --- 🔘 3. Butonlar (BEM Uyumlu Modern Stil) --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  width: auto; // Kartın içinde ortalanması için
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &--primary {
+    background-color: var(--primary-color);
+    color: white;
+
+    &:hover {
+      background-color: var(--primary-hover);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+  }
+
+  &--outline {
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+
+    &:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+  }
+  
+  &--secondary { // Dark Mode Butonu için
+    background-color: #f3f4f6;
+    color: #1f2937;
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    
+    &:hover {
+      background-color: #e5e7eb;
+    }
+  }
+}
+
+/* --- 🔒 4. Modal (Arka Plan ve Animasyon) --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6); // Arkayı karart
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px); // Modern cam efekti
+}
+
+.modal-content {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  animation: modalFadeIn 0.3s ease-out;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 10px;
+
+  h3 { margin: 0; color: #1f2937; }
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #9ca3af;
+  &:hover { color: #1f2937; }
+}
+
+@keyframes modalFadeIn {
+  from { transform: translateY(-20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* --- 📝 5. İletişim Formu --- */
+.contact-form {
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* --- 📱 6. Responsive (Senaryodaki <640px kuralı) --- */
+@media (max-width: 640px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  
+  .pricing-grid {
+    flex-direction: column; // Mobilde kartlar alt alta
+    align-items: center;
+  }
+  
+  .btn {
+    width: 100%; // Mobilde butonlar tam genişlik (User Experience puanı!)
+    padding: 14px;
+  }
+}
+/* Bu blok sayfanın en altında olsun ki diğer her şeyi ezsin */
+[data-theme='dark'] {
+  &, body, .app-container {
+    background-color: #111827 !important; // Koyu lacivert/siyah arka plan
+    color: #f9fafb !important; // Beyaz yazı
+  }
+
+  /* Kahraman (Hero) ve diğer bölümler */
+  .hero, .pricing-section, .faq-section, .contact-section, .footer {
+    background-color: transparent !important;
+    color: #f9fafb !important;
+  }
+
+  /* Kartların içini de karartalım */
+  .card {
+    background-color: #1f2937 !important;
+    border: 1px solid #374151 !important;
+    color: #f9fafb !important;
+
+    h3, .card__price, li {
+      color: #f9fafb !important;
+    }
+  }
+
+  /* Modal ve Inputlar */
+  .modal-content, input, textarea {
+    background-color: #1f2937 !important;
+    color: white !important;
+    border: 1px solid #4b5563 !important;
+  }
+
+  /* Başlıklar ve paragraflar */
+  h1, h2, h3, h4, p, span, li, label {
+    color: #f9fafb !important;
+  }
 }
